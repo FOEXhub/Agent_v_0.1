@@ -1,6 +1,7 @@
 from core.base_agent import BaseAgent
 from core.enums import AgentState
 
+
 class RequirementsCritic(BaseAgent):
     def __init__(self):  # Добавленный конструктор
         super().__init__(
@@ -8,7 +9,7 @@ class RequirementsCritic(BaseAgent):
             role="Ты эксперт по анализу требований. Проверяй полноту и выполнимость требований для web-app приложений телеграм."
         )
 
-    def process_data(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+    def process_data(self, inputs: dict[str, any]) -> dict[str, any]:
         requirements = inputs.get('requirements', '')
         if not requirements.strip():
             return {

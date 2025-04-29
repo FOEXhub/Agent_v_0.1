@@ -8,7 +8,7 @@ class CodeWriter(BaseAgent):
             "Ты Senior Python разработчик с опытом работы в web-app приложениями телеграм. Пиши чистый, эффективный код web-app приложений телеграмм."
         )
 
-    def process_data(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+    def process_data(self, inputs: dict[str, any]) -> dict[str, any]:
         prompt = f"""Напиши код web-app телеграмм приложения строго по этим требованиям:\n{inputs['requirements']}\n"""
         
         # Include critic feedback if available

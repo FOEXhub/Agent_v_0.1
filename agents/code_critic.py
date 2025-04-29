@@ -28,7 +28,7 @@ class CodeCritic(BaseAgent):
             self._log_thought(f"Syntax error: {str(e)}", "VALIDATION_ERROR")
             return False
 
-    def process_data(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+    def process_data(self, inputs: dict[str, any]) -> dict[str, any]:
         try:
             # Извлекаем код с обработкой ошибок
             raw_code = inputs.get('generated_code', '')

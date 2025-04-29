@@ -1,5 +1,10 @@
 from agents.requirements_writer import RequirementsWriter
-# Импорт остальных агентов ...
+from agents.requirements_critic import RequirementsCritic
+from agents.code_critic import CodeCritic
+from agents.code_writer import CodeWriter
+from agents.report_generator import ReportGenerator
+
+
 from core.enums import AgentState
 from pathlib import Path
 import json
@@ -10,11 +15,18 @@ class AgentOrchestrator:
         self.log_file = Path(log_file)
         self.agents = {
             "requirements_writer": RequirementsWriter(),
-            # Другие агенты
+            "requirements_critic": RequirementsCritic(),
+            "code_writer": CodeWriter(),
+            "code_critic": CodeCritic(),
+            "reporter": ReportGenerator()
+
         }
         self.workflow = [
-            ("requirements_writer", lambda x: True),
-            # Остальной workflow
+           ("requirements_writer", lambda x: True),
+            ("requirements_critic", lambda x: x.get("state") == AgentState.REQUIREMENTS_WRITTEN),
+            ("code_writer", lambda x: x.get("state") == AgentState.REQUIREMENTS_APPROVED),
+            ("code_critic", lambda x: x.get("state") == AgentState.CODE_WRITTEN),
+            ("reporter", lambda x: x.get("state") == AgentState.CODE_APPROVED)
         ]
         self.thought_log = []
 

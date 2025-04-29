@@ -8,7 +8,7 @@ class ReportGenerator(BaseAgent):
             "Ты аналитик. Формируй итоговые отчеты на основе всех этапов работы."
         )
 
-    def process_data(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
+    def process_data(self, inputs: dict[str, any]) -> dict[str, any]:
         prompt = f"""Сформируй итоговый отчет со следующими разделами:
                 1. Исходные требования
                 2. Критика требований

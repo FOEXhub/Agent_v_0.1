@@ -33,8 +33,6 @@ telegram-webapp-agent/
 
 ## 🛠️ Технологии
 - Python 3.10+
-- Flask (для серверной части)
-- Telegram WebApp API
 - LangChain / LLM
 - JSONL (формат логов)
 

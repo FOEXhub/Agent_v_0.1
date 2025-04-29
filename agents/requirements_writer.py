@@ -9,9 +9,11 @@ class RequirementsWriter(BaseAgent):
         )
 
     def process_data(self, inputs):
-        prompt = f"""
+        user_input = inputs.get('user_input', '')
+        
+        prompt = """
         На основе следующего запроса пользователя:
-        \"{inputs['user_input']}\"
+        "{user_input}"
 
         Сгенерируй технические требования для Telegram WebApp.
         Требования должны включать:
@@ -21,6 +23,7 @@ class RequirementsWriter(BaseAgent):
         - Пример взаимодействия
 
         Верни только чёткий и структурированный текст требований без пояснений.
-        """
+        """.format(user_input=user_input)
+        
         response = self._generate_response(prompt)
         return {"requirements": response.strip(), "state": AgentState.REQUIREMENTS_WRITTEN}

@@ -86,10 +86,30 @@ class BaseAgent:
 
     def _generate_response(self, prompt: str) -> str:
         self._log_thought(prompt, "PROMPT")
-        response = llm.invoke(prompt)
-        raw_response = response.content
-        self._log_thought({"raw_response": raw_response, "length": len(raw_response)}, "RAW_RESPONSE")
-        return raw_response
+        
+        try:
+            response = llm.invoke(prompt)
+            
+            if not hasattr(response, 'content') or not isinstance(response.content, str):
+                raise ValueError("Ответ модели имеет некорректный тип или формат")
+
+            raw_response = response.content.strip()
+            
+            # Защита от пустого ответа
+            if not raw_response:
+                raise ValueError("Модель вернула пустой ответ. Проверьте API ключ, токены или запрос.")
+            
+            self._log_thought({
+                "raw_response": raw_response[:100] + "..." if len(raw_response) > 100 else raw_response,
+                "length": len(raw_response),
+            }, "RAW_RESPONSE")
+            
+            return raw_response
+            
+        except Exception as e:
+            error_msg = f"Ошибка при генерации ответа: {str(e)}"
+            self._log_thought(error_msg, "ERROR")
+            raise RuntimeError(error_msg)
 
     def _define_tools(self) -> List[Tool]:
         return [

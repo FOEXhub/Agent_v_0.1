@@ -1,5 +1,7 @@
 from core.base_agent import BaseAgent
 from core.enums import AgentState
+import ast
+
 
 class CodeCritic(BaseAgent):
     def __init__(self):

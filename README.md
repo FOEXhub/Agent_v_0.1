@@ -22,7 +22,8 @@ telegram-webapp-agent/
 ├── core/                    # Ядро системы
 │   ├── base_agent.py           # Базовый класс агента
 │   ├── enums.py                # Перечисления состояний
-│   └── orchestrator.py         # Оркестровщик агентов
+├── orchestrator/
+|   └── orchestrator.py         # Оркестровщик агентов 
 ├── config/
 │   └── llm_setup.py            # Настройка LLM
 ├── logs/
@@ -41,8 +42,8 @@ telegram-webapp-agent/
 
 ```bash
 # Клонирование репозитория
-git clone https://github.com/yourname/telegram-webapp-agent.git
-cd telegram-webapp-agent
+git https://github.com/FOEXhub/Agent_v_0.1.git
+cd Agent_v_0.1
 
 # Установка зависимостей
 pip install -r requirements.txt
@@ -76,9 +77,7 @@ python main.py "Создай форму с полем email и кнопкой"
 
 | Переменная | Описание |
 |-----------|----------|
-| `TELEGRAM_BOT_TOKEN` | Токен вашего Telegram бота |
 | `LLM_MODEL` | Модель LLM (например, gpt-3.5-turbo) |
-| `LOG_FILE` | Путь к файлу логов (по умолчанию: agent_logs.jsonl) |
 
 ## 🧼 Защита от ошибок
 

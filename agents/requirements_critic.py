@@ -1,6 +1,6 @@
 from core.base_agent import BaseAgent
 from core.enums import AgentState
-
+import json
 
 class RequirementsCritic(BaseAgent):
     def __init__(self):  # Добавленный конструктор

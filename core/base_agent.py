@@ -28,14 +28,56 @@ class BaseAgent:
         ])
 
     def _log_thought(self, thought: Union[str, Dict], type: str):
-        self.logs.append({
+        """Логирует мысли агента в консоль в формате Markdown и сохраняет в историю"""
+        # Создаем запись для хранения в памяти
+        entry = {
             "timestamp": datetime.now().isoformat(),
             "agent": self.name,
             "type": type,
             "content": thought
-        })
+        }
+        self.logs.append(entry)
+        
+        # Формируем цветовой код для типа сообщения
+        color_codes = {
+            "PROMPT": "\033[94m",      # Синий
+            "RAW_RESPONSE": "\033[92m",# Зеленый
+            "ERROR": "\033[91m",       # Красный
+            "TOOL": "\033[93m",        # Желтый
+            "WARNING": "\033[95m",     # Фиолетовый
+            "INFO": "\033[0m"          # Сброс
+        }
+        color = color_codes.get(type, "\033[0m")
+
+        # Формируем строку времени
+        time_str = f"{color}[{datetime.fromisoformat(entry['timestamp']).strftime('%Y-%m-%d %H:%M:%S')}]{color_codes['INFO']}"
+        
+        # Определяем тип сообщения
+        type_str = f"{color}{type}{color_codes['INFO']}"
+        
+        # Форматируем содержимое
+        if isinstance(thought, dict):
+            content_str = json.dumps(
+                thought, 
+                ensure_ascii=False, 
+                indent=2,
+                default=lambda o: str(o)  # Для несериализуемых объектов
+            )
+            content_str = f"{color}```json\n{content_str}\n```{color_codes['INFO']}"
+        elif isinstance(thought, str):
+            content_str = textwrap.indent(
+                thought, 
+                '    ', 
+                lambda line: True  # Используем indent для всех строк
+            )
+        else:
+            content_str = str(thought)
+
+        # Выводим в консоль
+        print(f"{time_str} - {self.name} ({type_str})\n{content_str}\n" + "-"*80)
 
     def save_logs(self, file_path):
+        """Сохраняет логи в JSONL-файл"""
         with open(file_path, 'a', encoding='utf-8') as f:
             for entry in self.logs:
                 json.dump(entry, f, ensure_ascii=False, indent=2)
